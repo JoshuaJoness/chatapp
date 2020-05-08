@@ -45,23 +45,22 @@ const Chat = ({ location }) => {
      const { name, room } = queryString.parse(location.search)
      setName(name)
      setRoom(room)
-     axios.get(`${process.env.REACT_APP_API}/messages`,{
-        headers: {
-          room
-        }
-      })
-      .then(res => {
-        setMessages(res.data)
-        socket.emit('join', name)
-      }).catch(err => {
-        console.log(err);
-        })   
+     socket.emit('join', name, room)
    }, [])
+
+    {/* Here I am setting all of the old messages */}
+    socket.on('history', (data) => {
+      setMessages(data)
+    })
+
+    {/* Need to pass name to socket on disconnect event, for user has left message */}
 
   {/* Listens for 'msg' event, updates messages array */}
   socket.on('msg', (msg) => {
     setMessages([...messages,msg])
   })
+  
+  
 
   return(
     <div style={styles.outerContainer}>

@@ -21,7 +21,7 @@ const Message = ({ message, username, time, name,  }) => {
 			:
 			<div style={styles.otherUserMessage}>	
 				{/* Splitting message to style user */}
-				{message.includes('entered the') ? <div >
+				{message.includes('entered the' || 'left the') ? <div >
 					<p style={{display:'inline', color:'#2F3E46', marginLeft:'2%', fontSize:'1.7rem'}}>
 						{message.split(' ').shift()}
 					</p>
