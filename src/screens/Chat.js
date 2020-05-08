@@ -22,7 +22,7 @@ const ROOT_CSS = css({
 });
 
 // This creates the socket connect
-const socket = io('http://localhost:4002', {name:'name'});
+const socket = io(process.env.REACT_APP_API, {name:'name'});
 
 const Chat = ({ location }) => {
   const [name, setName] = useState('')
@@ -34,7 +34,7 @@ const Chat = ({ location }) => {
   const emitMessage = async () => {
     setMessage('')
     await socket.emit('msg', message, name, room)
-    await axios.post('http://localhost:4002/message', 
+    await axios.post(`${process.env.REACT_APP_API}/message`, 
       {name, message, room})
       .then(res => {console.log(res.data)})
       .catch(err => {console.log(err)})  
@@ -45,13 +45,12 @@ const Chat = ({ location }) => {
      const { name, room } = queryString.parse(location.search)
      setName(name)
      setRoom(room)
-     axios.get('http://localhost:4002/messages',{
+     axios.get(`${process.env.REACT_APP_API}/messages`,{
         headers: {
           room
         }
       })
       .then(res => {
-        console.log('******', res.data);
         setMessages(res.data)
         socket.emit('join', name)
       }).catch(err => {
