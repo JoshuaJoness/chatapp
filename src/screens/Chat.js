@@ -59,8 +59,6 @@ const Chat = ({ location }) => {
   socket.on('msg', (msg) => {
     setMessages([...messages,msg])
   })
-  
-  
 
   return(
     <div style={styles.outerContainer}>
